@@ -1,0 +1,21 @@
+#!/bin/bash
+# Roger McCoy. 
+# This is a Linux shell/bash script that searches a network log file for suspicious traffic and counts the occurrences.
+
+
+for i in {1..27}
+do
+   	echo "This is the $i iteration of the loop"
+	echo "Starting search.."
+	grep "May  $i" NetworkTraffic.log > May$i.log
+	grep "May $i" NetworkTraffic.log >> May$i.log	
+	# Separate statement needed because after May 9th there is one less space between the month & date.
+
+	echo "May $i Occurrences of suspicious traffic at DPT 3128 (MyDoom Virus):" >> SearchTotals.log
+	grep -o  "DPT=3128" May$i.log | wc -l >> SearchTotals.log
+	echo "May $i Occurrences of suspicious traffic at DPT 1255 (Scarab Trojan):" >> SearchTotals.log
+	grep -o  "DPT=1255" May$i.log | wc -l >> SearchTotals.log
+	echo "May $i Occurrences of suspicious traffic at DPT 21 (Doly Trojan):" >> SearchTotals.log
+	grep -o  "DPT=21" May$i.log | wc -l >> SearchTotals.log
+	echo "---------------------------------------------------------------------" >> SearchTotals.log
+done
